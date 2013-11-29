@@ -143,6 +143,23 @@ static inline void list_head_init(struct list_head *h)
 }
 
 /**
+ * list_insert - insert an entry before another
+ * @ref: the reference list_node
+ * @n: the list_node to add to the list.
+ *
+ * If @ref is a list_head's "n" member, list_insert() behaves as though
+ * list_add_tail(). Iff @ref is a list's only member, list_insert() behaves
+ * like both list_add() and list_add_tail().
+ */
+static inline void list_insert(struct list_node *ref, struct list_node *n)
+{
+	n->next = ref;
+	n->prev = ref->prev;
+	ref->prev->next = n;
+	ref->prev = n;
+}
+
+/**
  * list_add - add an entry at the start of a linked list.
  * @h: the list_head to add the node to
  * @n: the list_node to add to the list.
